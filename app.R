@@ -80,11 +80,11 @@ sales.yearly  = stats.yearly(xf)
 
 ##### user purchase information
 sales.personly     = stats.personly(xf)           # group transactions by users
-sales.purchaseFreq = stats.purchase_frequency(xf) # compute frequency purchase bin 
+sales.purchaseFreq = stats.purchase_frequency_count(xf) # compute frequency purchase bin 
 f2f <- stats.select_customer_purchases(xf, 'cust', 2)     # get customer with at least 2 purchase
 
 ### user purchase frequency
-sales.user_purchase_freq = stats.user_purchase_freq(xf)
+sales.user_purchase_freq = stats.user_avg_purchase_freq(xf)
 
 ### Compute Total Amount/Quantity and average
 sales.total = stats.total(xf)                    
