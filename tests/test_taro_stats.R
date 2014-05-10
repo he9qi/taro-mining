@@ -47,7 +47,7 @@ test_that("  purchase frequency count", {
 
 context("  user average purchase frequency count")
 
-# Taro.Stats.purchase_frequency_count
+# Taro.Stats.user_avg_purchase_freq
 test_that("  user average purchase frequency count", {
   cust  <- c('jack','jack','daniel','park','park','jack')
   sales <- c(2,3,1,3,1,2)  
@@ -68,7 +68,7 @@ test_that("  user average purchase frequency count", {
 
 context("  group by users and order by quantity")
 
-# Taro.Stats.purchase_frequency_count
+# Taro.Stats.personly
 test_that("  group by users and order by quantity", {
   cust  <- c('jack','jack','daniel','park','park','jack')
   sales <- c(2,3,1,3,1,2)  
@@ -88,7 +88,7 @@ test_that("  group by users and order by quantity", {
 
 context("  group by products and order by quantity")
 
-# Taro.Stats.purchase_frequency_count
+# Taro.Stats.productly
 test_that("  group by products and order by quantity", {
   cust     <- c('jack','jack','daniel','park','park','jack')
   product  <- c('banana','apple','peach','apple','apple','banana')

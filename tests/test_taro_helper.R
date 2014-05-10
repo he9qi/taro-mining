@@ -160,7 +160,7 @@ test_that("  group by customer and month", {
 context("  merge avg_purchase_freq to users")
 
 # Taro.Helper.mergeAvgPurchaseFreq
-test_that("  group by customer and month", {
+test_that("  merge average purchase frequency of a user", {
   cust  <- c('jack','daniel','park')
   sales <- c(2,3,1)  
   test_data <- data.frame(cust, sales)
