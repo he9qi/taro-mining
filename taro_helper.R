@@ -1,5 +1,10 @@
 # taro_helper.R
-#
+InstallCandidates <- c('plyr', 'lubridate')
+toInstall <- InstallCandidates[!InstallCandidates %in% library()$results[,1]]
+if(length(toInstall)!=0)
+{install.packages(toInstall, repos='http://cran.r-project.org')}
+lapply(InstallCandidates, library, character.only = TRUE)
+
 ################  HELPER FUNCTIONS ################  
 
 # count the column row
@@ -90,19 +95,13 @@ Taro.Helper.groupTimely <- function(data, group_by, FUN=Taro.Helper.groupMonth, 
   f <- Taro.Helper.select_dates(data, start, end)
   l <- unique(f[,group_by])
   
-  first = TRUE
+  ptransg2 = NULL
   for (pname in l) {
     ptrans = subset(f, f[,group_by] == as.character(pname))
     ptransg <- FUN(ptrans)
     ptransg[,group_by] = as.character(pname)
     ptransg$delta <- c(0, diff(as.numeric(ptransg$amount)))
-    if (first){
-      ptransg2 <- ptransg
-      first = FALSE
-    }
-    else{
-      ptransg2 <- rbind(ptransg, ptransg2)
-    }
+    ptransg2 <- rbind(ptransg, ptransg2)
   }
   
   return(ptransg2)
@@ -113,7 +112,7 @@ Taro.Helper.groupTimely <- function(data, group_by, FUN=Taro.Helper.groupMonth, 
 # Merge the user average purchase frequency talbe *sales.user_purchase_freq* 
 # into *sales.users*
 Taro.Helper.mergeAvgPurchaseFreq <- function(sales.users, sales.user_purchase_freq){
-  first = TRUE
+  sales.musers = NULL
   for(muser in sales.users$cust){
     kusers = subset(sales.users, sales.users$cust == muser)
     if( muser %in% sales.user_purchase_freq$cust){
@@ -122,11 +121,7 @@ Taro.Helper.mergeAvgPurchaseFreq <- function(sales.users, sales.user_purchase_fr
     }else{
       kusers$avg_purchase_freq <- 0
     }
-    if(first){ 
-      sales.musers <- kusers
-      first = FALSE
-    }
-    else { sales.musers <- rbind( sales.musers, kusers ) }
+    sales.musers <- rbind( sales.musers, kusers ) 
   }
   return(sales.musers)
 }

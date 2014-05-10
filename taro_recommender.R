@@ -28,37 +28,35 @@ Taro.Recommender.productByPerson <- function(data, start=NULL, end=NULL){
   matrix(row, ncol=length(l), dimnames=list(user=u, item=l))
 }
 
+
+# build recommendation data for user x product
 Taro.Recommender.build <- function(mat, partitions=4){
   users <- dimnames(mat)$user
+  len   <- length(users)
   b     <- as(mat, "binaryRatingMatrix")
   if( partitions > 10 ) { partitions = 4 } # partitions can not be too big or it is too computensive
-  
-  len  <- length(users)
   
   # first split partitions
   parts <- split(c(1:len), ceiling(seq_along(c(1:len))/(len/partitions)))
   
+  # convert to vector so we can exclude later
+  partsVec <- NULL
+  for(p in parts){ partsVec <- c(partsVec,(as.vector(p))) }
+  
+  # loop through parts and do recommendation
+  cust_recom <- NULL
   for( part in parts){
-    print('---part--')
-    print(as.vector(part))
-    trainParts <- parts[-part]
-
-    print(trainParts)
-    y <- NULL
-    for(p in trainParts){ y <- c(y,(as.vector(p))) }
+    trainParts <- partsVec[-part]
     
-    print('---trainParts--')
-    print(y)
+    r <- Recommender(b[trainParts], method="POPULAR")
+    recom <- predict(r, b[part], n=3)
+    
+    for( j in c(1:length(part)) ){
+      u <- users[part][j]
+      l <- getList(recom)[j]
+      df <- data.frame(cust=u, recom=unlist(getList(recom)[1]))
+      cust_recom <- rbind(cust_recom, df)
+    }
   }
-  
-#   for(i in 1:partitions){
-#     trainLen = len * i / partitions
-#     
-#   }
-  
+  return(cust_recom)
 }
-# 
-# b <- as(mat, "binaryRatingMatrix")
-# r <- Recommender(b[1:2], method="POPULAR")
-# recom <- predict(r, b[3:3], n=1)
-# print(getList(recom))

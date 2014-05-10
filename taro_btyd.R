@@ -1,4 +1,11 @@
 # taro_btyd.R
+InstallCandidates <- c("BTYD")
+toInstall <- InstallCandidates[!InstallCandidates %in% library()$results[,1]]
+if(length(toInstall)!=0)
+{install.packages(toInstall, repos='http://cran.r-project.org')}
+lapply(InstallCandidates, library, character.only = TRUE)
+
+
 #   predict customer behavior
 
 # build data for predict customer behavior, normally, only 3 columns needed

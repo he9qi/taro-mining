@@ -1,4 +1,9 @@
 # taro_stats.R
+InstallCandidates <- c('plyr', 'lubridate')
+toInstall <- InstallCandidates[!InstallCandidates %in% library()$results[,1]]
+if(length(toInstall)!=0)
+{install.packages(toInstall, repos='http://cran.r-project.org')}
+lapply(InstallCandidates, library, character.only = TRUE)
 
 ### schema:
 # cust   quantity amount last_purchase_at    last_purchase_amount

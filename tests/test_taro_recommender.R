@@ -26,10 +26,12 @@ test_that("  group by products and order by quantity", {
   expect_equivalent(as.numeric(mat[2,3]), 0) # daniel bought apple?
   expect_equivalent(as.numeric(mat[2,2]), 1) # daniel bought peach?
   
-  b <- as(mat, "binaryRatingMatrix")
-  r <- Recommender(b[1:4], method="POPULAR")
+  ### prediction
+  cust_recom <- Taro.Recommender.build(mat)
+  recomFor   <- function(person) {
+    cust_recom[cust_recom$cust == person,]
+  }
+  recoms <- recomFor('jack')
+  expect_equivalent(as.character(recoms$recom[1]), 'peach')
   
-  recom <- predict(r, b[5:6], n=1)
-  print(getList(recom))
-
 })
