@@ -157,27 +157,3 @@ test_that("  group by customer and month", {
   expect_equivalent(cs1$cust, 'park') 
 })
 
-context("  merge avg_purchase_freq to users")
-
-# Taro.Helper.mergeAvgPurchaseFreq
-test_that("  merge average purchase frequency of a user", {
-  cust  <- c('jack','daniel','park')
-  sales <- c(2,3,1)  
-  test_data <- data.frame(cust, sales)
-  
-  cust <- c('jack','park')
-  avg_purchase_freq <- c(11,22)
-  test_freq_data <- data.frame(cust, avg_purchase_freq)
-  
-  sales <- function() { 
-    sales <- Taro.Helper.mergeAvgPurchaseFreq(test_data, test_freq_data)
-  }
-  
-  cs  = sales()
-  cs1 = head(cs, 1)
-  cs2 = cs[cs$cust == 'daniel',]
-  
-  expect_equivalent(nrow(cs), 3) 
-  expect_equivalent(cs1$avg_purchase_freq, 11) 
-  expect_equivalent(cs2$avg_purchase_freq, 0) 
-})

@@ -4,7 +4,7 @@ InstallCandidates <- c("recommenderlab")
 toInstall <- InstallCandidates[!InstallCandidates %in% library()$results[,1]]
 if(length(toInstall)!=0)
 {install.packages(toInstall, repos='http://cran.r-project.org')}
-library(rmongodb)
+lapply(InstallCandidates, library, character.only = TRUE)
 
 # prepare data for recommender
 Taro.Recommender.productByPerson <- function(data, start=NULL, end=NULL){

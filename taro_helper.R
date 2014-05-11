@@ -107,21 +107,3 @@ Taro.Helper.groupTimely <- function(data, group_by, FUN=Taro.Helper.groupMonth, 
   return(ptransg2)
 }
 
-
-### 
-# Merge the user average purchase frequency talbe *sales.user_purchase_freq* 
-# into *sales.users*
-Taro.Helper.mergeAvgPurchaseFreq <- function(sales.users, sales.user_purchase_freq){
-  sales.musers = NULL
-  for(muser in sales.users$cust){
-    kusers = subset(sales.users, sales.users$cust == muser)
-    if( muser %in% sales.user_purchase_freq$cust){
-      pusers = subset(sales.user_purchase_freq, sales.user_purchase_freq$cust == muser)
-      kusers$avg_purchase_freq <- pusers$avg_purchase_freq
-    }else{
-      kusers$avg_purchase_freq <- 0
-    }
-    sales.musers <- rbind( sales.musers, kusers ) 
-  }
-  return(sales.musers)
-}

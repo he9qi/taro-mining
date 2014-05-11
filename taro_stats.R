@@ -5,30 +5,12 @@ if(length(toInstall)!=0)
 {install.packages(toInstall, repos='http://cran.r-project.org')}
 lapply(InstallCandidates, library, character.only = TRUE)
 
-### schema:
-# cust   quantity amount last_purchase_at    last_purchase_amount
-# jack       82   9905       2013-12-19                  122
-Taro.Stats.personly <- function(data, start=NULL, end=NULL) {
-  result <- Taro.Helper.basic_group_sales(data, 'cust', 'quantity', start, end)
-  return(result)
-}
-
 
 ### schema:
 #  product  quantity amount last_purchase_at   last_purchase_amount
 #  CA 4113      116  19295       2013-12-31              68
 Taro.Stats.productly <- function(data, start=NULL, end=NULL){
   result <- Taro.Helper.basic_group_sales(data, 'product', 'quantity', start, end)
-  return(result)
-}
-
-
-# compute user purchase freq(avg)
-# cust        avg_purchase_freq
-# ALLAN          28.20000
-Taro.Stats.user_avg_purchase_freq <- function(f){
-  purchaseFreq <- ddply(f, .(cust), summarize,  daysBetween = as.numeric(diff(date)))
-  result <- ddply(purchaseFreq, 'cust', function(x) c(avg_purchase_freq=mean(x$daysBetween)))
   return(result)
 }
 
