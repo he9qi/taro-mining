@@ -27,6 +27,16 @@ Taro.Stats.purchase_frequency_count <- function(f){
 }
 
 
+# merge last month stats from *sales.monthly* and *sales.total*
+# note: for computation benefit, we don't compute sales.monthly and 
+# sales.total here, we just use them directly.
+Taro.Stats.mergeLastMonthStats <- function(sales.monthly, sales.total) {
+  last <- tail(sales.monthly, n=1)
+  sales.total$last_month_stats <- paste(last$amount, last$quantity, last$delta, last$qdelta)
+  return(sales.total)
+}
+
+
 # schema:
 # amount   quantity customer_count amount_per_customer quantity_per_customer trans_new_customer trans_new_cust_interval customer_buy_count_2
 # 1125048    10844     3941            285.4727              2.751586           2.672246                      52                 2453

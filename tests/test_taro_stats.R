@@ -24,6 +24,31 @@ test_that("  total stats", {
   
 })
 
+context("  merge total stats with last month stats")
+
+# Taro.Stats.mergeLastMonthStats
+test_that("  merge total stats with last month stats", {
+  cust  <- c('jack','jack','daniel','park','park','jack')
+  sales <- c(2,3,1,3,1,2)  
+  date <- as.Date(c("2014-01-02","2014-02-02","2014-01-02","2014-04-02","2014-05-09","2014-06-02"))
+  test_data <- data.frame(cust, date, sales)
+  
+  sales <- function(){
+    sales.monthly <- Taro.Timely.monthly(test_data)
+    sales.total   <- Taro.Stats.total(test_data) 
+    Taro.Stats.mergeLastMonthStats(sales.monthly, sales.total)
+  }
+  
+  total <- sales()
+  
+  expect_equivalent(total$quantity, 6) 
+  expect_equivalent(total$amount, 12) 
+  expect_equivalent(total$customer_count, 3) 
+  expect_equivalent(total$amount_per_customer, 4) 
+  expect_equivalent(total$quantity_per_customer, 2) 
+  expect_equivalent(total$last_month_stats, "2 1 1 0") 
+})
+
 context("  purchase frequency count")
 
 # Taro.Stats.purchase_frequency_count
