@@ -10,14 +10,18 @@ lapply(InstallCandidates, library, character.only = TRUE)
 
 # build data for predict customer behavior, normally, only 3 columns needed
 # for it:  customer_id, purchase_date, and purchase_amount
-Taro.BTYD.prepareData <- function(rdata, col_cust, col_date, col_sales) {
-  f        <- rdata[,c(col_cust,col_date,col_sales)]
-  names(f) <- c("cust","date","sales") 
-  f[,3]    <- as.numeric(as.character(f[,3]))                  # format price
+Taro.BTYD.prepareData <- function(rdata, column_vector, format="%Y/%m/%d") {
+  f <- rdata[,column_vector]
+  if(length(column_vector) <= 3){
+    f$taro_new_column  <- 1
+  }
+  names(f) <- c('cust',"date",'sales', 'count') 
+  f$sales  <- as.numeric(as.character(f$sales))                # format price
   f        <- subset(f, f$sales > 0)                           # eliminate negative price
-  f$date   <- as.Date(as.character(f$date), format="%Y/%m/%d") # format date #%Y%m%d %m/%d/%Y 
-  xf       <- dc.MergeTransactionsOnSameDate(f)                # merge same day transactions
-  return(xf)
+  f$count  <- as.numeric(as.character(f$count))                # format count
+  f$date   <- as.Date(as.character(f$date), format=format)     # format date #%Y%m%d %m/%d/%Y 
+  f        <- dc.MergeTransactionsOnSameDate(f)                # merge same day transactions
+  return(f)
 }
 
 

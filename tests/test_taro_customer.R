@@ -11,15 +11,16 @@ context("  merge transactions by customer")
 test_that("  merge transactions by customer", {
   cust  <- c('jack','jack','daniel','park','park','jack')
   sales <- c(2,3,1,3,1,2)  
+  count <- c(2,1,1,1,1,1)  
   date <- as.Date(c("2014-01-02","2014-02-02","2014-01-02","2014-04-02","2014-05-09","2014-06-02"))
-  test_data <- data.frame(cust, date, sales)
+  test_data <- data.frame(cust, date, sales, count)
   
   personly <- Taro.Customer.mergeTransactions(test_data)
   
-  p1 = head(personly, n=1)
-  
+  p1 = personly[personly$cust == 'jack',]
+
   expect_equivalent(p1$cust, "jack") 
-  expect_equivalent(p1$quantity, 3)
+  expect_equivalent(p1$quantity, 4)
   expect_equivalent(p1$amount, 7)
   expect_equivalent(p1$last_purchase_at, "2014-06-02")
   expect_equivalent(p1$last_purchase_amount, 2)
@@ -84,8 +85,9 @@ test_that("  merge by individual users and months", {
   
   cust  <- c('jack','jack','daniel','park','park','jack')
   sales <- c(2,3,1,3,1,2)  
+  count <- c(1,1,1,2,2,2)  
   date <- as.Date(c("2014-01-02","2014-02-02","2014-01-02","2014-04-02","2014-04-09","2014-06-02"))
-  test_data <- data.frame(cust, date, sales)
+  test_data <- data.frame(cust, date, sales, count)
   
   cust  <- c('jack','daniel','park')
   sales <- c(2,3,1)  
@@ -101,8 +103,8 @@ test_that("  merge by individual users and months", {
   cs2 = cs[cs$cust == 'park',]
   
   expect_equivalent(nrow(cs), 3) 
-  expect_equivalent(cs1$monthly_transactions, "2014-01-01 1 2|2014-02-01 1 3|2014-06-01 1 2") 
-  expect_equivalent(cs2$monthly_transactions, "2014-04-01 2 4") 
+  expect_equivalent(cs1$monthly_transactions, "2014-01-01 1 2|2014-02-01 1 3|2014-06-01 2 2") 
+  expect_equivalent(cs2$monthly_transactions, "2014-04-01 4 4") 
 })
 
 context("  merge recommendations")

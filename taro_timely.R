@@ -14,7 +14,7 @@ Taro.Timely.days <- function(data, start=NULL, end=NULL) {
   
   f     <- Taro.Helper.select_dates(data, start, end)
   f$day <- weekdays(f$date)
-  result = ddply(f, 'day', function(x) c(quantity=nrow(x), amount=sum(x$sales)))
+  result = ddply(f, 'day', function(x) c(quantity=sum(x$count), amount=sum(x$sales)))
   result = result[order(factor(result$day, levels = day.name)),]
   
   return(result)
@@ -29,7 +29,7 @@ Taro.Timely.months <- function(data, start=NULL, end=NULL) {
   f <- Taro.Helper.select_dates(data, start, end)
   
   f$month <- months(f$date)
-  result = ddply(f, 'month', function(x) c(quantity=nrow(x), amount=sum(x$sales)))
+  result = ddply(f, 'month', function(x) c(quantity=sum(x$count), amount=sum(x$sales)))
   result = result[order(factor(result$month, levels = month.name)),]
   
   return(result)

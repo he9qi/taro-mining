@@ -43,9 +43,9 @@ Taro.Helper.select_customer_purchases <- function(data, cust_column, purchase_co
 #     amount per customer
 #     change in amount between each concatenated group
 #     change in quantity between each concatenated group
-# note that both *sales* and *cust* columns have to be there
+# note that *count* *sales* and *cust* columns have to be there
 Taro.Helper.group_sales <- function(f, group_by='date'){
-  result <- ddply(f, group_by, function(x) c(quantity=nrow(x), amount=sum(x$sales), tnc=length(unique(x$cust)) ))
+  result <- ddply(f, group_by, function(x) c(quantity=sum(x$count), amount=sum(x$sales), tnc=length(unique(x$cust)) ))
   result$qpc <- as.numeric(result$quantity) / as.numeric(result$tnc)
   result$apc <- as.numeric(result$amount) / as.numeric(result$tnc)
   result$delta <- c(0, diff(as.numeric(result$amount)))
@@ -63,7 +63,7 @@ Taro.Helper.group_sales <- function(f, group_by='date'){
 # NOTE: order_by has to be one of *quantity* *amount* *last_purchase_at* *last_purchase_amount*
 Taro.Helper.basic_group_sales <- function(data, group_by, order_by, start=NULL, end=NULL) {
   f <- Taro.Helper.select_dates(data, start, end)
-  result <- ddply(f, group_by, function(x) c(quantity=nrow(x), amount=sum(x$sales), last_purchase_at=as.character(tail(x$date, n=1)), last_purchase_amount=as.numeric(tail(x$sales, n=1))) )
+  result <- ddply(f, group_by, function(x) c(quantity=sum(x$count), amount=sum(x$sales), last_purchase_at=as.character(tail(x$date, n=1)), last_purchase_amount=as.numeric(tail(x$sales, n=1))) )
   result$quantity   <- as.numeric(result$quantity)
   result$amount     <- as.numeric(result$amount)
   result[,group_by] <- as.character(result[,group_by])

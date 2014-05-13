@@ -6,6 +6,25 @@ if(length(toInstall)!=0)
 lapply(InstallCandidates, library, character.only = TRUE)
 
 
+# build data for stats
+# columns: 
+#    id,time,product,cust,sales,count*
+Taro.Stats.prepareData <- function(rdata, column_vector, format="%Y/%m/%d") {
+  utrans <- rdata[,column_vector]
+  if(length(column_vector) <= 5){
+    utrans$count  <- 1
+  }
+  
+  names(utrans) <- c("trans_id","date","product", 'cust', 'sales', 'count') 
+  utrans$sales  <- as.numeric(as.character(utrans$sales))
+  utrans$count  <- as.numeric(as.character(utrans$count))
+  utrans        <- subset(utrans, utrans$sales > 0)
+  utrans$date   <- as.Date(as.character(utrans$date), format=format)#%Y%m%d %m/%d/%Y
+  
+  return(utrans)
+}
+
+
 ### schema:
 #  product  quantity amount last_purchase_at   last_purchase_amount
 #  CA 4113      116  19295       2013-12-31              68
@@ -43,7 +62,7 @@ Taro.Stats.mergeLastMonthStats <- function(sales.monthly, sales.total) {
 # total quantity and amount
 Taro.Stats.total <- function(f) {
   amount   = sum(f$sales)
-  quantity = length(f$sales)
+  quantity = sum(f$count)
   customer_count = length(unique(f$cust))
   amount_per_customer = amount / customer_count
   quantity_per_customer = quantity / customer_count
