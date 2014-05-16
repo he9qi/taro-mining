@@ -7,6 +7,10 @@ if(length(toInstall)!=0)
 {install.packages(toInstall, repos='http://cran.r-project.org')}
 library(rmongodb)
 
+Taro.Mongo.is.connected <- function(Taro.Mongo.client) {
+  mongo.is.connected(Taro.Mongo.client)
+}
+
 Taro.Mongo.init <- function(host, port=27017, username="", password="") {
   Taro.Mongo.client <- mongo.create(host=host, username=username, password=password)
   return(Taro.Mongo.client)

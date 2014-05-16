@@ -27,6 +27,10 @@ source(paste(getwd(),"/lib/taro_mining/taro_customer.R",sep=""))
 debugMode <- TRUE
 debugger <- function(message) {
   if(debugMode){
-    print(paste("== ", message, collapse=""))
+    message(paste("TM:", message, collapse=" "))
   }
+}
+
+stop_with_message <- function( message ){
+  stop(paste("TM:", message, collapse=" "))
 }
