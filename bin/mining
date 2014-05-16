@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+# run Rscript
+
+ARGS=""
+if [ -n "$*" ]; then
+  ARGS=$*
+fi
+
+Rscript /app/taro_mining/app.R $ARGS
+

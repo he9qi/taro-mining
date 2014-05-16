@@ -15,10 +15,18 @@ if(length(toInstall)!=0)
 lapply(InstallCandidates, library, character.only = TRUE)
 
 ######  include sources  ########
-source("taro_helper.R")         # always include this first
-source("taro_btyd.R")           
-source("taro_mongo.R")
-source("taro_stats.R")
-source("taro_timely.R")
-source("taro_recommender.R")
-source("taro_customer.R")
+source(paste(getwd(),"/lib/taro_mining/taro_helper.R",sep=""))         # always include this first
+source(paste(getwd(),"/lib/taro_mining/taro_data.R",sep=""))
+source(paste(getwd(),"/lib/taro_mining/taro_btyd.R",sep=""))           
+source(paste(getwd(),"/lib/taro_mining/taro_mongo.R",sep=""))
+source(paste(getwd(),"/lib/taro_mining/taro_stats.R",sep=""))
+source(paste(getwd(),"/lib/taro_mining/taro_timely.R",sep=""))
+source(paste(getwd(),"/lib/taro_mining/taro_recommender.R",sep=""))
+source(paste(getwd(),"/lib/taro_mining/taro_customer.R",sep=""))
+
+debugMode <- TRUE
+debugger <- function(message) {
+  if(debugMode){
+    print(paste("== ", message, collapse=""))
+  }
+}

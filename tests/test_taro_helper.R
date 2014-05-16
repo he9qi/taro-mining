@@ -2,7 +2,7 @@
 file_dir = getwd(); if( grepl('tests', getwd()) ){ wd <- getwd(); setwd(".."); file_dir <- getwd(); setwd(wd) }
 
 source(paste(file_dir,"/tests/test_helper.R",sep=""))
-source(paste(file_dir,"/taro_helper.R",sep=""))
+source(paste(file_dir,"/lib/taro_mining/taro_helper.R",sep=""))
 
 context("Taro Helper")
 context("  bin_count")

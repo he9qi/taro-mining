@@ -26,18 +26,18 @@ Taro.BTYD.prepareData <- function(rdata, column_vector, format="%Y/%m/%d") {
 
 
 # return customer live probability
-Taro.BTYD.predictCustomerLiveProbability <- function(params2, cal2.cbs) {
+Taro.BTYD.predictCustLiveProb <- function(params2, cal2.cbs) {
   p.alives <- pnbd.PAlive(params2, cal2.cbs[,"x"], cal2.cbs[,"t.x"], cal2.cbs[,"T.cal"])
   return(p.alives)
 }
 
 # return predicted customer transaction in weeks
-Taro.BTYD.predictNewCustomerTransactionsInWeeks <- function(params2, t=52) {
+Taro.BTYD.predictNewCustTrans <- function(params2, t=52) {
   return(pnbd.Expectation(params2, t=t))
 }
 
 # estimate transactions in a T.star-long duration for that cust
-Taro.BTYD.predictCustomerTransactionsInWeeks <- function(params2, cal2.cbs, t.star=52) {
+Taro.BTYD.predictCustsTrans <- function(params2, cal2.cbs, t.star=52) {
   result <- pnbd.ConditionalExpectedTransactions(params2, T.star = t.star, cal2.cbs[,"x"], cal2.cbs[,"t.x"], cal2.cbs[,"T.cal"])  # T.star => weeks
   return(result)
 }
