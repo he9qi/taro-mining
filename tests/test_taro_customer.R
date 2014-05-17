@@ -107,6 +107,36 @@ test_that("  merge by individual users and months", {
   expect_equivalent(cs2$monthly_transactions, "2014-04-01 4 4") 
 })
 
+context("  compute customer values")
+
+#        cust   ltv      trans52        value  est_value
+# 1   daniel   3.0       3      2.636089e-01 0.36789170
+# 2   jack    200.0      20     9.801987e-01 0.86070862
+# 3   park     0.1       1      4.421556e-18 0.04980201
+test_that("  compute customer values", {
+  
+  cust  <- c('jack','jack','daniel','park','park','jack')
+  sales <- c(2,3,1,3,1,2)  
+  count <- c(1,1,1,2,2,2)  
+  date <- as.Date(c("2014-01-02","2014-02-02","2014-01-02","2014-04-02","2014-04-09","2014-06-02"))
+  test_data <- data.frame(cust, date, sales, count)
+  
+  cust  <- c('jack','daniel','park')
+  ltv   <- c(200,3,0.1)  
+  trans52 <- c(20,3,1)  
+  test_users <- data.frame(cust, ltv, trans52)
+  
+  users <- Taro.Customer.computeValues(test_data, test_users)
+  
+  cs1 = users[users$cust == 'jack',]
+  cs2 = users[users$cust == 'park',]
+  
+  expect_equivalent(nrow(users), 3) 
+  expect_equivalent(cs1$est_value, 0.86070862) 
+  expect_equivalent(cs2$est_value, 0.04980201) 
+})
+
+
 context("  merge recommendations")
 
 # Taro.Customer.mergeRecommendations

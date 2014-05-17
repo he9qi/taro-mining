@@ -18,6 +18,27 @@ Taro.Customer.avg_purchase_freq <- function(f){
   return(result)
 }
 
+# compute user value and est value
+Taro.Customer.computeValues <- function(f, sales.users){
+  amount   = sum(f$sales)
+  quantity = sum(f$count)
+  customer_count = length(unique(f$cust))
+  amount_per_customer = amount / customer_count
+  quantity_per_customer = quantity / customer_count
+  
+  computeValues <- function(user, base_value=0.0001) {
+    value      <- exp(-(amount_per_customer / (user$ltv+base_value)))
+    est_value  <- exp(-(quantity_per_customer / (user$trans52+base_value)))
+    
+    user$value     <- round(as.numeric(value), 8)
+    user$est_value <- round(as.numeric(est_value), 8)
+    user
+  }
+  
+  result <- ddply(sales.users, 'cust', computeValues )
+  return(result)
+}
+
 
 # Merge the user average purchase frequency talbe *sales.user_purchase_freq* 
 # into *sales.users*
