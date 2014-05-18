@@ -15,11 +15,12 @@ Taro.BTYD.prepareData <- function(rdata, column_vector, format="%Y/%m/%d") {
   if(length(column_vector) <= 3){
     f$taro_new_column  <- 1
   }
+  
   names(f) <- c('cust',"date",'sales', 'count') 
   f$sales  <- as.numeric(as.character(f$sales))                # format price
   f        <- subset(f, f$sales > 0)                           # eliminate negative price
   f$count  <- as.numeric(as.character(f$count))                # format count
-  f$date   <- as.Date(as.character(f$date), format=format)     # format date #%Y%m%d %m/%d/%Y 
+  f$date   <- Taro.Helper.toDate(as.character(f$date), format=format)     # format date #%Y%m%d %m/%d/%Y 
   f        <- dc.MergeTransactionsOnSameDate(f)                # merge same day transactions
   return(f)
 }
@@ -58,7 +59,7 @@ Taro.BTYD.toCbsCbt <- function(f) {
                           T.cal=end.of.cal.period,
                           merge.same.date=TRUE, # already did this
                           statistic = "freq") # which CBT to return
-  str(data)
+  # str(data)
   
   return(data)
 }

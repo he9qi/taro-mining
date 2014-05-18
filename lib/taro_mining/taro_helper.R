@@ -14,6 +14,15 @@ Taro.Helper.bin_count <- function(f, column_to_count){
   return(result)
 }
 
+# convert to date
+Taro.Helper.toDate <- function(dates, format){
+  mydate <- as.Date(dates, format=format)
+  if( is.na(mydate[1])){    
+    mydate <- as.Date(dates) # try without format
+  }
+  return(mydate)
+}
+
 
 # returns data within dates and dates are sorted too
 Taro.Helper.select_dates <- function(data, date_s=NULL, date_e=NULL) {

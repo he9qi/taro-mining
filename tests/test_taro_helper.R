@@ -5,6 +5,21 @@ source(paste(file_dir,"/tests/test_helper.R",sep=""))
 source(paste(file_dir,"/lib/taro_mining/taro_helper.R",sep=""))
 
 context("Taro Helper")
+context("  conver to date by format")
+
+# Taro.Helper.toDate
+test_that("conver to date by format", {
+  col1 <- c('a','b','c','a','c')
+  col2 <- c(1,2,3,4,5)
+  date <- c('2014-1-1','2014-1-2','2014-1-3','2014-1-4','2014-1-5')
+  test_data <- data.frame(col1, col2, date)
+  
+  dates <- Taro.Helper.toDate(test_data$date, "%Y-%k-%m")
+  
+  expect_equivalent(dates[1], as.Date("2014-01-01"))
+})
+
+
 context("  bin_count")
 
 # Taro.Helper.bin_count

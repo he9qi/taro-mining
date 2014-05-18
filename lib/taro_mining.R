@@ -15,14 +15,18 @@ if(length(toInstall)!=0)
 lapply(InstallCandidates, library, character.only = TRUE)
 
 ######  include sources  ########
-source(paste(getwd(),"/lib/taro_mining/taro_helper.R",sep=""))         # always include this first
-source(paste(getwd(),"/lib/taro_mining/taro_data.R",sep=""))
-source(paste(getwd(),"/lib/taro_mining/taro_btyd.R",sep=""))           
-source(paste(getwd(),"/lib/taro_mining/taro_mongo.R",sep=""))
-source(paste(getwd(),"/lib/taro_mining/taro_stats.R",sep=""))
-source(paste(getwd(),"/lib/taro_mining/taro_timely.R",sep=""))
-source(paste(getwd(),"/lib/taro_mining/taro_recommender.R",sep=""))
-source(paste(getwd(),"/lib/taro_mining/taro_customer.R",sep=""))
+
+# assume the app is resided in the same directroy as the taro_mining app!
+file_dir = getwd(); if( grepl('tarofy', getwd()) ){ wd <- getwd(); setwd("../taro_mining"); file_dir <- getwd(); setwd(wd) }
+
+source(paste(file_dir,"/lib/taro_mining/taro_helper.R",sep=""))         # always include this first
+source(paste(file_dir,"/lib/taro_mining/taro_data.R",sep=""))
+source(paste(file_dir,"/lib/taro_mining/taro_btyd.R",sep=""))           
+source(paste(file_dir,"/lib/taro_mining/taro_mongo.R",sep=""))
+source(paste(file_dir,"/lib/taro_mining/taro_stats.R",sep=""))
+source(paste(file_dir,"/lib/taro_mining/taro_timely.R",sep=""))
+source(paste(file_dir,"/lib/taro_mining/taro_recommender.R",sep=""))
+source(paste(file_dir,"/lib/taro_mining/taro_customer.R",sep=""))
 
 debugMode <- TRUE
 debugger <- function(message) {
