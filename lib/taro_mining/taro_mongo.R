@@ -35,3 +35,19 @@ Taro.Mongo.save <- function(Taro.Mongo.client, Taro.Mongo.db, collection, data){
   }
 }
 
+Taro.Mongo.read <- function(Taro.Mongo.client, Taro.Mongo.db, collection){
+  ns  <- paste(Taro.Mongo.db, collection, sep=".")
+  
+  items  <- data.frame()
+  cursor <- mongo.find(Taro.Mongo.client, ns)
+  
+  # iterate and grab the next record 
+  while (mongo.cursor.next(cursor)) {
+    tmp    <- mongo.bson.to.list(mongo.cursor.value(cursor))
+    tmp.df <- as.data.frame(t(unlist(tmp)))
+    items  <- rbind.fill(items, tmp.df)
+  }
+  return(items)
+}
+
+
