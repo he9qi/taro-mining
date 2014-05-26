@@ -16,12 +16,14 @@ Taro.Stats.prepareData <- function(rdata, column_vector, format="%Y/%m/%d") {
   }
   
   names(utrans) <- c("trans_id","date","product", 'cust', 'sales', 'count') 
+  utrans        <- unique(utrans) # make it unique first!!!
   utrans$sales  <- as.numeric(as.character(utrans$sales))
   utrans$count  <- as.numeric(as.character(utrans$count))
   utrans        <- subset(utrans, utrans$sales > 0)
   utrans$date   <- Taro.Helper.toDate(as.character(utrans$date), format=format)#%Y%m%d %m/%d/%Y
+  utrans        <- subset(utrans, !is.na(utrans$date))
   
-  return(unique(utrans))
+  return(utrans)
 }
 
 
