@@ -21,7 +21,7 @@ Taro.Stats.prepareData <- function(rdata, column_vector, format="%Y/%m/%d") {
   utrans        <- subset(utrans, utrans$sales > 0)
   utrans$date   <- Taro.Helper.toDate(as.character(utrans$date), format=format)#%Y%m%d %m/%d/%Y
   
-  return(utrans)
+  return(unique(utrans))
 }
 
 
