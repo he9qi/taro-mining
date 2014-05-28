@@ -99,12 +99,12 @@ context("  prepare data w/o count column")
 
 # Taro.Stats.purchase_frequency_count
 test_that("  prepare data w/o count column", {
-  x1 <- c(2,3,1,3,1,2)  
-  x2 <- c('jack','jack','daniel','park','park','jack')
-  x3 <- as.Date(c("2014-01-02","2014-01-02","2014-01-02","2014-04-02","2014-05-09","2014-06-02"))
-  x4 <- c(2,2,2,3,2,2)  
-  x5 <- c(7,7,7,7,7,7)  
-  x6 <- c('apple','banana','apple','peach','watermelon','banana')  
+  x1 <- c(2,3,1,3,1,2,1)  
+  x2 <- c('jack','jack','daniel','park','park','jack','daniel')
+  x3 <- as.Date(c("2014-01-02","2014-01-02","2014-01-02","2014-04-02","2014-05-09","2014-06-02","2014-01-02"))
+  x4 <- c(2,2,2,3,2,2,2)  
+  x5 <- c(7,7,7,7,7,7,7)  
+  x6 <- c('apple','banana','apple','peach','watermelon','banana','apple')  
   test_data <- data.frame(x1, x2, x3, x4, x5, x6)
   
   # "trans_id","date","product", 'cust', 'sales', 'count'
@@ -112,6 +112,8 @@ test_that("  prepare data w/o count column", {
   d1 <- data[data$cust=='jack',]
   d2 <- head(d1, n=1)
   expect_equivalent(names(data), c("trans_id","date","product", 'cust', 'sales', 'count')) 
+  expect_equivalent(nrow(data), 6)
+  
   expect_equivalent(nrow(d1), 3)
   expect_equivalent(d2$count, 2)
   
@@ -121,6 +123,9 @@ test_that("  prepare data w/o count column", {
   expect_equivalent(names(data), c("trans_id","date","product", 'cust', 'sales', 'count')) 
   expect_equivalent(nrow(d1), 3)
   expect_equivalent(d2$count, 1)
- 
+  
+  # test duplicate
+  d3 <- data[data$cust=='daniel',]
+  expect_equivalent(nrow(d3), 1)
 })
 

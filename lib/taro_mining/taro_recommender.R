@@ -49,7 +49,7 @@ Taro.Recommender.build <- function(mat, partitions=4){
     trainParts <- partsVec[-part]
     
     r <- Recommender(b[trainParts], method="POPULAR")
-    recom <- predict(r, b[part], n=3)
+    recom <- predict(r, b[part], n=5)
     
     for( j in c(1:length(part)) ){
       u <- users[part][j]

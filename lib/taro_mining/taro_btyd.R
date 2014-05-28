@@ -17,10 +17,14 @@ Taro.BTYD.prepareData <- function(rdata, column_vector, format="%Y/%m/%d") {
   }
   
   names(f) <- c('cust',"date",'sales', 'count') 
+  
+  # make it unique first!!!
+  f        <- unique(f)
   f$sales  <- as.numeric(as.character(f$sales))                # format price
   f        <- subset(f, f$sales > 0)                           # eliminate negative price
   f$count  <- as.numeric(as.character(f$count))                # format count
   f$date   <- Taro.Helper.toDate(as.character(f$date), format=format)     # format date #%Y%m%d %m/%d/%Y 
+  f        <- subset(f, !is.na(f$date))
   f        <- dc.MergeTransactionsOnSameDate(f)                # merge same day transactions
   return(f)
 }

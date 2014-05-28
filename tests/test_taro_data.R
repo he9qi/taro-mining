@@ -17,6 +17,19 @@ test_that("  read data from directory that doesn't have the files", {
   expect_equivalent(data, NULL) 
 })
 
+context("  read data from singel file")
+
+# TaroData.readDataFromDir
+test_that("  read data from singel file", {
+  data <- TaroData.readDataFromDir(paste(test.data_path, "/2013-01-02.csv", sep='/'), pattern=".csv")
+  # should return NULL
+  expect_equivalent(nrow(data), 3) 
+  
+  first = head(data, n=1)
+  expect_equivalent(first[,3], 7842361474778)
+})
+
+
 context("  read data from multiples files")
 
 # TaroData.readDataFromDir

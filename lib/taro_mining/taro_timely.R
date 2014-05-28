@@ -57,6 +57,7 @@ Taro.Timely.weekly <- function(data, start=NULL, end=NULL) {
   result = Taro.Helper.group_sales(f, 'date')
   
   result$date = unlist(lapply(result$date, function(x) as.character(as.POSIXlt(x, format = "%Y-%U-%u"))))
+  result <- subset(result, !is.na(result$date))
   
   return(result)
 }
