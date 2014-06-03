@@ -22,6 +22,8 @@ test_that("  total stats", {
   expect_equivalent(total$customer_count, 3) 
   expect_equivalent(total$amount_per_customer, 4) 
   expect_equivalent(total$quantity_per_customer, 8/3) 
+  expect_equivalent(total$start_at, "2014-01-02") 
+  expect_equivalent(total$end_at, "2014-06-02") 
   
 })
 

@@ -68,11 +68,15 @@ Taro.Stats.total <- function(f) {
   customer_count = length(unique(f$cust))
   amount_per_customer = amount / customer_count
   quantity_per_customer = quantity / customer_count
+  start_at = as.character(min(f$date))
+  end_at = as.character(max(f$date))
   
   result <- data.frame(amount=amount, quantity=quantity, 
              customer_count=customer_count,
              amount_per_customer=amount_per_customer,
-             quantity_per_customer=quantity_per_customer)
+             quantity_per_customer=quantity_per_customer,
+             start_at=start_at,
+             end_at=end_at, stringsAsFactors=FALSE)
   
   return(result)
 }
