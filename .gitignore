@@ -6,3 +6,4 @@ app*.R
 .Rproj
 /bin
 /tests/fixtures
+/sample

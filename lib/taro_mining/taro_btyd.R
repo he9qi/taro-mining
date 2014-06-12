@@ -26,6 +26,9 @@ Taro.BTYD.prepareData <- function(rdata, column_vector, format="%Y/%m/%d") {
   f$date   <- Taro.Helper.toDate(as.character(f$date), format=format)     # format date #%Y%m%d %m/%d/%Y 
   f        <- subset(f, !is.na(f$date))
   f        <- dc.MergeTransactionsOnSameDate(f)                # merge same day transactions
+  
+  # order by date, column #2 is the date column
+  f        <- f[ order(f[,2]), ]
   return(f)
 }
 

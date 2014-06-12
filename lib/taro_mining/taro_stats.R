@@ -23,6 +23,8 @@ Taro.Stats.prepareData <- function(rdata, column_vector, format="%Y/%m/%d") {
   utrans$date   <- Taro.Helper.toDate(as.character(utrans$date), format=format)#%Y%m%d %m/%d/%Y
   utrans        <- subset(utrans, !is.na(utrans$date))
   
+  # order by date, column #2 is the date column
+  utrans        <- utrans[ order(utrans[,2]), ]
   return(utrans)
 }
 
